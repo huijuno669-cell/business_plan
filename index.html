@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JP Solution: 데이터 기반 에너지 효율화 솔루션</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Noto Sans KR", sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        height: 350px;
+        max-height: 400px;
+      }
+      .nav-item {
+        transition: all 0.3s ease;
+      }
+      .nav-item:hover,
+      .nav-item.active {
+        color: #2563eb;
+        border-bottom: 2px solid #2563eb;
+      }
+      .card-hover {
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .card-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+      .btn-primary {
+        background-color: #1e40af;
+        color: white;
+        transition: background-color 0.2s;
+      }
+      .btn-primary:hover {
+        background-color: #1e3a8a;
+      }
+      .tab-btn.active {
+        background-color: #eff6ff;
+        border-color: #2563eb;
+        color: #1e40af;
+      }
+    </style>
+    <!-- Chosen Palette: Professional Trust (Warm Neutrals & Deep Blue) - Background: #f8fafc (Slate 50), Primary: #1e40af (Blue 800), Accent: #f97316 (Orange 500 for Energy/Heat) -->
+    <!-- Application Structure Plan:
+         1. Hero Section: Immediate impact with key metric (123 Billion KRW/Year) and Value Prop.
+         2. Market Verification Dashboard: Interactive charts proving the 'Funnel Efficiency' and 'Conversion Rates' vs Industry.
+         3. The Solution (Home Doctor): Interactive flow (Tabs) demonstrating the unique Diagnosis -> Cure process.
+         4. CEO & Competency: Profile section highlighting the unique "All-rounder" capability.
+         5. Synergy Projection: Interactive simulation showing potential growth with SI investment.
+         Rationale: Focus on evidence (Numbers) first to grab investor attention, then explain 'How' (Solution), 'Who' (CEO), and finally 'Future' (Synergy).
+    -->
+    <!-- Visualization & Content Choices:
+         1. Sales Funnel (Plotly): Visualizes the high-efficiency marketing engine (6379 DB -> 1263 Contracts). Goal: Prove marketing capability.
+         2. Conversion Comparison (Chart.js Bar): Contrasts JP's 19.8% vs Industry 1.5%. Goal: Highlight operational excellence.
+         3. Revenue Trend (Chart.js Line): Shows monthly breakdown of the 12.3B annual performance. Goal: Show stability.
+         4. Process Flow (Interactive HTML): Uses clickable tabs to explain the thermal imaging diagnosis process without static images.
+         5. Synergy Simulator (Interactive HTML/JS): A conceptual calculator allowing the user to toggle "Collaboration Level" to see projected outcomes.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+  </head>
+  <body class="bg-slate-50 min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <span class="text-2xl font-black text-blue-900 tracking-tighter"
+              >JP Solution</span
+            >
+          </div>
+          <div class="hidden md:flex space-x-8 items-center">
+            <button
+              onclick="scrollToSection('section-market')"
+              class="nav-item px-3 py-2 text-sm font-medium text-slate-600"
+            >
+              시장 검증
+            </button>
+            <button
+              onclick="scrollToSection('section-solution')"
+              class="nav-item px-3 py-2 text-sm font-medium text-slate-600"
+            >
+              홈 닥터 솔루션
+            </button>
+            <button
+              onclick="scrollToSection('section-ceo')"
+              class="nav-item px-3 py-2 text-sm font-medium text-slate-600"
+            >
+              CEO 역량
+            </button>
+            <button
+              onclick="scrollToSection('section-synergy')"
+              class="nav-item px-3 py-2 text-sm font-medium text-slate-600"
+            >
+              투자 제안
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white border-b border-slate-200">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center"
+      >
+        <h1
+          class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4"
+        >
+          데이터 기반의
+          <span class="text-blue-700">노후 주택 에너지 효율화</span> 솔루션
+        </h1>
+        <p class="max-w-2xl mx-auto text-xl text-slate-500 mb-8">
+          22만 팬덤의 마케팅 파워와 데이터 경영의 결합.<br />
+          연간 수주 <span class="font-bold text-slate-900">123억 원</span> 달성
+          기업, 제이피솔루션.
+        </p>
+        <div class="flex justify-center gap-4">
+          <button
+            onclick="scrollToSection('section-synergy')"
+            class="btn-primary px-8 py-3 rounded-lg font-bold shadow-lg transform hover:-translate-y-1 transition"
+          >
+            협업 제안 확인하기
+          </button>
+          <button
+            onclick="scrollToSection('section-market')"
+            class="px-8 py-3 rounded-lg font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition border border-blue-200"
+          >
+            성과 데이터 보기
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Section 1: Market Verification -->
+    <section id="section-market" class="py-16 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">
+            시장 장악력 검증
+          </h2>
+          <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+            제이피솔루션은 단순한 신생 기업이 아닙니다. 이미 유튜브라는 강력한
+            모객 채널을 통해
+            <span class="font-bold text-blue-700">마케팅 비용 Zero</span>로
+            중견기업 수준의 매출 볼륨을 만들어내고 있습니다. 아래 데이터는
+            2025년 단일 영업 조직 기준 실적입니다.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <!-- Chart 1: Marketing Funnel -->
+          <div
+            class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 card-hover"
+          >
+            <h3 class="text-xl font-bold text-slate-800 mb-2">
+              고효율 마케팅 퍼널 (2025년)
+            </h3>
+            <p class="text-sm text-slate-500 mb-4">
+              유튜브 콘텐츠가 실제 고가 리모델링 계약으로 직결되는 과정을
+              보여줍니다.
+            </p>
+            <div id="funnelChart" class="w-full h-[350px]"></div>
+          </div>
+
+          <!-- Chart 2: Conversion Rate Comparison -->
+          <div
+            class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 card-hover"
+          >
+            <h3 class="text-xl font-bold text-slate-800 mb-2">
+              계약 체결율 비교
+            </h3>
+            <p class="text-sm text-slate-500 mb-4">
+              일반 온라인 마케팅 대비 압도적인 구매 전환율을 기록하고 있습니다.
+            </p>
+            <div class="chart-container">
+              <canvas id="conversionChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Metrics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-blue-900 p-6 rounded-xl text-white text-center">
+            <div class="text-4xl font-black mb-2">123억 원</div>
+            <div class="text-blue-200 text-sm font-medium">
+              2025년 연간 계약 금액
+            </div>
+          </div>
+          <div
+            class="bg-white p-6 rounded-xl border border-slate-200 text-center shadow-sm"
+          >
+            <div class="text-4xl font-black text-blue-700 mb-2">22만 명</div>
+            <div class="text-slate-500 text-sm font-medium">
+              유튜브 구독자 (업계 1위)
+            </div>
+          </div>
+          <div
+            class="bg-white p-6 rounded-xl border border-slate-200 text-center shadow-sm"
+          >
+            <div class="text-4xl font-black text-blue-700 mb-2">50~70대</div>
+            <div class="text-slate-500 text-sm font-medium">
+              핵심 구매 고객층 (High-Ticket)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Home Doctor Solution -->
+    <section
+      id="section-solution"
+      class="py-16 bg-white border-y border-slate-100"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">
+            Home Doctor 솔루션
+          </h2>
+          <p class="text-lg text-slate-600 max-w-3xl">
+            단순 심미적 인테리어가 아닙니다. 집의 기능적 문제(추위, 결로,
+            곰팡이)를 의사가 진단하고 처방하듯 해결합니다.
+            <span class="font-bold text-orange-600">열화상 진단</span>을 포함한
+            원스톱 메디컬 케어 방식을 확인해보세요.
+          </p>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-8">
+          <!-- Interactive Tabs -->
+          <div class="md:w-1/3 flex flex-col space-y-2">
+            <button
+              onclick="updateSolution('diagnosis')"
+              id="tab-diagnosis"
+              class="tab-btn active text-left px-6 py-4 rounded-lg border border-transparent font-bold text-lg hover:bg-slate-50 transition"
+            >
+              1. 진단 (Diagnosis)
+            </button>
+            <button
+              onclick="updateSolution('prescription')"
+              id="tab-prescription"
+              class="tab-btn text-left px-6 py-4 rounded-lg border border-transparent font-medium text-slate-600 hover:bg-slate-50 transition"
+            >
+              2. 처방 (Prescription)
+            </button>
+            <button
+              onclick="updateSolution('construction')"
+              id="tab-construction"
+              class="tab-btn text-left px-6 py-4 rounded-lg border border-transparent font-medium text-slate-600 hover:bg-slate-50 transition"
+            >
+              3. 시공 (Construction)
+            </button>
+            <button
+              onclick="updateSolution('as')"
+              id="tab-as"
+              class="tab-btn text-left px-6 py-4 rounded-lg border border-transparent font-medium text-slate-600 hover:bg-slate-50 transition"
+            >
+              4. 사후관리 (Care)
+            </button>
+          </div>
+
+          <!-- Dynamic Content Display -->
+          <div
+            class="md:w-2/3 bg-slate-50 rounded-2xl p-8 border border-slate-200 min-h-[300px] flex flex-col justify-center relative overflow-hidden"
+          >
+            <div id="solution-content">
+              <!-- Content injected by JS -->
+            </div>
+            <!-- Decorative Icon Background -->
+            <div
+              class="absolute right-[-20px] bottom-[-20px] text-slate-200 text-9xl opacity-20 select-none pointer-events-none"
+              id="solution-icon"
+            >
+              🩺
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: CEO Competency & Data Management -->
+    <section id="section-ceo" class="py-16 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">
+            검증된 리더십 & 데이터 경영
+          </h2>
+          <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+            마케팅, 영업, 시공, 제조까지. 완성창 사업의 A to Z를 직접 경험하고
+            성공시킨 리더십과 실시간 데이터 경영 시스템이 결합되었습니다.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <!-- CEO Profile Card -->
+          <div
+            class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden"
+          >
+            <div class="bg-blue-900 p-6 text-white">
+              <h3 class="text-2xl font-bold">정지훈 (정프로)</h3>
+              <p class="text-blue-200">
+                JP Solution 대표 / 前 청암홈윈도우 법인장(CEO)
+              </p>
+            </div>
+            <div class="p-6 space-y-6">
+              <div class="flex items-start gap-4">
+                <div class="bg-blue-100 text-blue-700 p-3 rounded-full text-xl">
+                  🏆
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900">제조 혁신</h4>
+                  <p class="text-slate-600 text-sm">
+                    전직장 공장 가동률 50% → 100% 달성 (1년 내)
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div
+                  class="bg-orange-100 text-orange-700 p-3 rounded-full text-xl"
+                >
+                  🎬
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900">브랜딩 파워</h4>
+                  <p class="text-slate-600 text-sm">
+                    유튜브 채널 구독자 22만 명 (업계 압도적 1위)
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div
+                  class="bg-green-100 text-green-700 p-3 rounded-full text-xl"
+                >
+                  📊
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900">올라운더 역량</h4>
+                  <p class="text-slate-600 text-sm">
+                    광고 영업부터 시공 총괄까지 전 과정 직접 수행 경험
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data System Viz -->
+          <div class="space-y-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200">
+              <h3 class="text-lg font-bold text-slate-900 mb-2">
+                실시간 데이터 대시보드 시스템
+              </h3>
+              <p class="text-slate-600 text-sm mb-4">
+                주먹구구식 관리가 아닌, 접수부터 수금까지 전 과정을 데이터로
+                모니터링하여 리스크를 원천 차단합니다.
+              </p>
+              <!-- Mock Dashboard Bars -->
+              <div class="space-y-3">
+                <div>
+                  <div class="flex justify-between text-xs text-slate-500 mb-1">
+                    <span>실시간 영업 접수</span>
+                    <span>오늘: 42건</span>
+                  </div>
+                  <div class="w-full bg-slate-100 rounded-full h-2">
+                    <div
+                      class="bg-blue-600 h-2 rounded-full"
+                      style="width: 75%"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs text-slate-500 mb-1">
+                    <span>계약 전환율 (금주)</span>
+                    <span>19.8%</span>
+                  </div>
+                  <div class="w-full bg-slate-100 rounded-full h-2">
+                    <div
+                      class="bg-green-500 h-2 rounded-full"
+                      style="width: 85%"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs text-slate-500 mb-1">
+                    <span>현장 시공 완료율</span>
+                    <span>98.5%</span>
+                  </div>
+                  <div class="w-full bg-slate-100 rounded-full h-2">
+                    <div
+                      class="bg-purple-500 h-2 rounded-full"
+                      style="width: 98%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+              <h3 class="text-lg font-bold text-blue-900 mb-2">
+                상위 1% 인재 육성
+              </h3>
+              <p class="text-blue-800 text-sm">
+                개인 연간 수주 29억, 체결율 25% 이상의 Top Performer를 육성하고
+                관리하는 체계적인 매뉴얼을 보유하고 있습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Investment & Synergy Proposal -->
+    <section
+      id="section-synergy"
+      class="py-16 bg-white border-t border-slate-200"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <span
+            class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"
+            >Business Proposal</span
+          >
+          <h2 class="text-3xl font-bold text-slate-900 mt-3 mb-4">
+            귀사와의 시너지 전략
+          </h2>
+          <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+            대기업의 <strong>제조 인프라</strong>와 JP Solution의
+            <strong>마케팅 엔진</strong>이 결합하면 완성창 시장의 압도적 점유율
+            확보가 가능합니다.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <!-- Strategy Options -->
+          <div class="space-y-4">
+            <h3 class="text-xl font-bold text-slate-800">협업 모델 제안</h3>
+
+            <div
+              class="p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-blue-500 transition group"
+              onclick="simulateSynergy('partnership')"
+            >
+              <div class="flex justify-between items-center mb-2">
+                <h4 class="font-bold text-lg group-hover:text-blue-700">
+                  1. 전략적 파트너십
+                </h4>
+                <span class="text-2xl">🤝</span>
+              </div>
+              <p class="text-slate-600 text-sm">
+                귀사의 고품질 제품과 JP의 판매 채널 연동. 에너지 효율화 전문
+                라인업 공동 기획 및 유통.
+              </p>
+            </div>
+
+            <div
+              class="p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-blue-500 transition group"
+              onclick="simulateSynergy('internal')"
+            >
+              <div class="flex justify-between items-center mb-2">
+                <h4 class="font-bold text-lg group-hover:text-blue-700">
+                  2. 조직 내재화 (TF 총괄)
+                </h4>
+                <span class="text-2xl">🏢</span>
+              </div>
+              <p class="text-slate-600 text-sm">
+                정지훈 대표의 노하우와 시스템을 귀사 완성창 사업부에 직접 이식.
+                신규 비즈니스 유닛 총괄.
+              </p>
+            </div>
+
+            <div class="bg-slate-100 p-4 rounded-lg mt-6">
+              <h4 class="font-bold text-sm text-slate-700 mb-2">
+                시뮬레이션 조건 설정
+              </h4>
+              <div class="mb-4">
+                <label class="block text-xs font-medium text-slate-600 mb-1"
+                  >마케팅 투자 확대 (배수)</label
+                >
+                <input
+                  type="range"
+                  id="marketingRange"
+                  min="1"
+                  max="5"
+                  step="0.5"
+                  value="1"
+                  class="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer"
+                  oninput="updateSynergyChart()"
+                />
+                <div class="flex justify-between text-xs text-slate-500 mt-1">
+                  <span>현재 수준 (1x)</span>
+                  <span id="multiplierValue">1x</span>
+                  <span>최대 (5x)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Synergy Chart -->
+          <div
+            class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"
+          >
+            <h3 class="text-xl font-bold text-slate-800 mb-2">
+              예상 매출 시뮬레이션
+            </h3>
+            <p class="text-sm text-slate-500 mb-4">
+              협업 시너지 발생 시 예상되는 연간 매출 성장 추이입니다.
+            </p>
+            <div class="chart-container">
+              <canvas id="synergyChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div
+          class="bg-blue-900 rounded-2xl p-8 sm:p-12 text-center text-white relative overflow-hidden"
+        >
+          <div class="relative z-10">
+            <h3 class="text-2xl sm:text-3xl font-bold mb-4">
+              완성창 시장 1위를 위한 확실한 마중물이 되겠습니다.
+            </h3>
+            <p class="text-blue-200 mb-8 max-w-2xl mx-auto">
+              자금 소요 계획 및 구체적인 실행 방안은 미팅을 통해 상세히
+              설명드리겠습니다.<br />
+              대전 도안동 거점 전시장 및 전국 네트워크 확장 계획을 보유하고
+              있습니다.
+            </p>
+            <button
+              class="bg-white text-blue-900 hover:bg-blue-50 font-bold py-3 px-8 rounded-lg shadow-lg transition transform hover:scale-105"
+              onclick="alert('미팅 요청이 접수되었습니다. (Demo)')"
+            >
+              미팅 요청하기
+            </button>
+          </div>
+          <!-- Decorative Circle -->
+          <div
+            class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-blue-800 rounded-full opacity-50"
+          ></div>
+          <div
+            class="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-blue-700 rounded-full opacity-50"
+          ></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center"
+      >
+        <div class="mb-4 md:mb-0">
+          <span class="text-2xl font-black text-white tracking-tighter"
+            >JP Solution</span
+          >
+          <p class="text-sm mt-2">
+            대표자: 정지훈 (정프로) | 사업분야: 노후 주택 에너지 효율화 솔루션
+          </p>
+        </div>
+        <div class="text-sm text-center md:text-right">
+          <p>본 페이지는 사업계획서 요약본입니다.</p>
+          <p class="mt-1">&copy; 2026 JP Solution. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+      // --- State Management ---
+      const state = {
+        currentTab: "diagnosis",
+        synergyMultiplier: 1,
+        synergyMode: "partnership", // 'partnership' or 'internal'
+      };
+
+      // --- Data ---
+      const marketData = {
+        funnel: {
+          labels: ["DB 배정", "계약 체결"],
+          values: [6379, 1263],
+          colors: ["#cbd5e1", "#1d4ed8"],
+        },
+        conversion: {
+          labels: ["일반 업계 평균", "JP Solution"],
+          data: [1.5, 19.8],
+        },
+      };
+
+      const solutionContent = {
+        diagnosis: {
+          title: "정밀 진단 (Thermal Imaging)",
+          desc: "육안으로 보이지 않는 에너지 손실 부위, 결로 원인을 최첨단 열화상 카메라로 정밀 진단합니다. 단순 견적이 아닌, 집의 건강 상태를 체크합니다.",
+          icon: "🌡️",
+          color: "text-orange-600",
+        },
+        prescription: {
+          title: "맞춤 처방 (Custom Design)",
+          desc: "진단 데이터에 기반하여 해당 주택의 단열 성능을 극대화할 수 있는 최적의 창호 등급과 단열재 두께를 설계하고 처방합니다.",
+          icon: "📝",
+          color: "text-blue-600",
+        },
+        construction: {
+          title: "책임 시공 (One-Stop Service)",
+          desc: "본사 직영급 관리 시스템을 통해 철거부터 시공, 마감까지 One-Stop으로 진행합니다. 공기 지연 없는 정확한 시공을 보장합니다.",
+          icon: "🏗️",
+          color: "text-slate-700",
+        },
+        as: {
+          title: "데이터 기반 AS",
+          desc: "모든 시공 이력을 데이터화하여 관리합니다. 문제 발생 시 원인을 즉시 파악하고 신속하게 대응하는 평생 케어 시스템입니다.",
+          icon: "🛡️",
+          color: "text-green-600",
+        },
+      };
+
+      // --- Chart Initialization ---
+      let funnelChartInst = null;
+      let conversionChartInst = null;
+      let synergyChartInst = null;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initFunnelChart();
+        initConversionChart();
+        initSynergyChart();
+        updateSolution("diagnosis"); // Initial load
+      });
+
+      // --- Chart 1: Funnel (Using Plotly for Funnel shape) ---
+      function initFunnelChart() {
+        const data = [
+          {
+            type: "funnel",
+            y: ["DB 배정 (잠재고객)", "계약 체결 (실구매)"],
+            x: [6379, 1263],
+            textinfo: "value+percent initial",
+            hoverinfo: "x+percent initial",
+            marker: {
+              color: ["#94a3b8", "#1e40af"],
+            },
+          },
+        ];
+
+        const layout = {
+          margin: { l: 150, r: 50, t: 20, b: 20 }, // Adjusted margins
+          height: 350,
+          funnelmode: "stack",
+          showlegend: false,
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: { family: "Noto Sans KR" },
+        };
+
+        const config = { responsive: true, displayModeBar: false };
+        Plotly.newPlot("funnelChart", data, layout, config);
+      }
+
+      // --- Chart 2: Conversion Comparison (Chart.js) ---
+      function initConversionChart() {
+        const ctx = document.getElementById("conversionChart").getContext("2d");
+        conversionChartInst = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: marketData.conversion.labels,
+            datasets: [
+              {
+                label: "계약 체결율 (%)",
+                data: marketData.conversion.data,
+                backgroundColor: ["#e2e8f0", "#2563eb"],
+                borderWidth: 0,
+                borderRadius: 8,
+                barPercentage: 0.6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return context.raw + "%";
+                  },
+                },
+              },
+              datalabels: {
+                // Note: datalabels plugin not loaded, using basic tooltip
+                display: true,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 25,
+                grid: { color: "#f1f5f9" },
+              },
+              x: {
+                grid: { display: false },
+              },
+            },
+          },
+        });
+      }
+
+      // --- Chart 3: Synergy Simulator (Chart.js Line/Bar) ---
+      function initSynergyChart() {
+        const ctx = document.getElementById("synergyChart").getContext("2d");
+
+        // Initial Data (Base Revenue)
+        const baseRevenue = [10, 10.5, 11, 11.5, 12, 12.3]; // Monthly trend mock for 2025
+
+        synergyChartInst = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: ["1월", "2월", "3월", "4월", "5월", "6월 (예상)"],
+            datasets: [
+              {
+                label: "기존 예상 매출 (억 원)",
+                data: baseRevenue,
+                borderColor: "#94a3b8",
+                backgroundColor: "rgba(148, 163, 184, 0.1)",
+                borderDash: [5, 5],
+                fill: true,
+                tension: 0.4,
+              },
+              {
+                label: "시너지 효과 매출 (억 원)",
+                data: baseRevenue.map((v) => v), // Start same
+                borderColor: "#2563eb",
+                backgroundColor: "rgba(37, 99, 235, 0.1)",
+                fill: true,
+                tension: 0.4,
+                borderWidth: 3,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              tooltip: {
+                mode: "index",
+                intersect: false,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: false,
+                min: 8,
+                grid: { color: "#f1f5f9" },
+              },
+              x: { grid: { display: false } },
+            },
+            interaction: {
+              mode: "nearest",
+              axis: "x",
+              intersect: false,
+            },
+          },
+        });
+      }
+
+      // --- Interactions ---
+
+      function scrollToSection(id) {
+        document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+      }
+
+      function updateSolution(key) {
+        state.currentTab = key;
+
+        // Update Tab Styles
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          if (btn.id === `tab-${key}`) {
+            btn.classList.add(
+              "active",
+              "font-bold",
+              "text-blue-900",
+              "bg-blue-50"
+            );
+            btn.classList.remove("text-slate-600");
+          } else {
+            btn.classList.remove(
+              "active",
+              "font-bold",
+              "text-blue-900",
+              "bg-blue-50"
+            );
+            btn.classList.add("text-slate-600");
+          }
+        });
+
+        // Update Content
+        const data = solutionContent[key];
+        const contentDiv = document.getElementById("solution-content");
+        const iconDiv = document.getElementById("solution-icon");
+
+        // Simple Fade Effect
+        contentDiv.style.opacity = 0;
+        setTimeout(() => {
+          contentDiv.innerHTML = `
+                    <h3 class="text-2xl font-bold ${data.color} mb-4 flex items-center gap-2">
+                        <span>${data.icon}</span> ${data.title}
+                    </h3>
+                    <p class="text-lg text-slate-700 leading-relaxed">
+                        ${data.desc}
+                    </p>
+                `;
+          iconDiv.innerText = data.icon;
+          contentDiv.style.opacity = 1;
+        }, 200);
+      }
+
+      function simulateSynergy(mode) {
+        state.synergyMode = mode;
+        // Visual feedback for selection could be added here
+        // Automatically trigger chart update
+        updateSynergyChart();
+      }
+
+      function updateSynergyChart() {
+        const slider = document.getElementById("marketingRange");
+        const multiplier = parseFloat(slider.value);
+        document.getElementById("multiplierValue").innerText = multiplier + "x";
+
+        const baseRevenue = [10, 10.5, 11, 11.5, 12, 12.3];
+
+        // Logic:
+        // Partnership: Multiplier affects efficiency modestly (1.2 base)
+        // Internalization: Multiplier affects drastically (1.5 base) due to direct resource injection
+        const baseFactor = state.synergyMode === "internal" ? 1.5 : 1.2;
+        const growthRate = 1 + (multiplier - 1) * 0.5 + (baseFactor - 1);
+
+        const newData = baseRevenue.map((val) => (val * growthRate).toFixed(1));
+
+        synergyChartInst.data.datasets[1].data = newData;
+        synergyChartInst.update();
+      }
+    </script>
+  </body>
+</html>
